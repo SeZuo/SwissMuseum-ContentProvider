@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.RowFactory;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.TableAbstract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.GroupsContract;
-import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.PagesContract;
 
 public class Groups extends TableAbstract<Group> {
 	private static final long serialVersionUID = 1L;

@@ -19,9 +19,13 @@
 
 package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model;
 
+import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.connectors.LocalConnector;
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 /**
@@ -32,17 +36,45 @@ import android.net.Uri;
  *
  */
 public class Database extends ContentProvider {
+	
+	private static final String AUTHORITY = "ch.sebastienzurfluh.swissmuseumguides.contentprovider";
+	
+	
+
+	private SQLiteOpenHelper database;
 
 	@Override
 	public boolean onCreate() {
-		return false;
+		database = new LocalConnector(this.getContext());
+		
+		return true;
 	}
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
+		//TODO: this is the only function we have to implement here!
+	
+		// here comes the functions we need.
+		
+		
 		return null;
 	}
+	
+	
+	private Cursor menusListAllPageMenusFromGroup() {
+		return null;
+	}
+	
+	private Cursor pagesGetData(int pageId) {
+		return null;
+	}
+	
+	private Cursor resourcesGet(int resourceId) {
+		//TODO later.... we don't need this just yet (but we will once we get rid of the web views)
+		return null;
+	}
+	
 
 	@Override
 	public String getType(Uri uri) {

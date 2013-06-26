@@ -23,7 +23,7 @@ public abstract class DALContract {
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_PAGE_ID = "page_id";
 		public static final String COLUMN_NAME_GROUP_ID = "group_id";
-		public static final String COLUMN_NAME_ORDER = "order_id";
+		public static final String COLUMN_NAME_ORDER = "order";
 	}
 	
 	public static abstract class GroupsContract implements BaseColumns {

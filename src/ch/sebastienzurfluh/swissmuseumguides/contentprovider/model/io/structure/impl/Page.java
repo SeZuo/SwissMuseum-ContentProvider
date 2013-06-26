@@ -29,7 +29,7 @@ public class Page extends RowAbstract {
 		return getString(PagesContract.COLUMN_NAME_SUBTITLE);
 	}
 
-	public String getImgURL() throws JSONException {
+	public String getContent() throws JSONException {
 		return getString(PagesContract.COLUMN_NAME_CONTENT);
 	}
 	

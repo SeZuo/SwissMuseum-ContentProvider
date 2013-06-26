@@ -23,6 +23,7 @@ import org.json.JSONException;
 
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.interfaces.OConnector;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.AffiliationsContract;
+import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.PagesContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.impl.Affiliation;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.impl.Affiliations;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.impl.Group;
@@ -36,10 +37,9 @@ import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 /**
- * When asked, triggers
+ * Creates then lets the user fill the local database.
  *
  *
  * @author Sebastien Zurfluh
@@ -48,7 +48,7 @@ import android.widget.Toast;
 public class LocalConnector extends SQLiteOpenHelper implements OConnector {
 	
 	private static final String DATABASE_NAME = "swissmuseumguides";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 4;
 	private static final String[] CREATE_TABLES = {
 		"CREATE TABLE IF  NOT EXISTS " + AffiliationsContract.TABLE_NAME + " ("
     		+ "  " + AffiliationsContract.COLUMN_NAME_ID + " INTEGER PRIMARY KEY,"
@@ -68,12 +68,12 @@ public class LocalConnector extends SQLiteOpenHelper implements OConnector {
     		+ "  thumb_img_url TEXT NOT NULL,"
     		+ "  img_url TEXT NOT NULL"
     		+ ");"
-    		, "CREATE TABLE IF NOT EXISTS pages ("
-    		+ "  id INTEGER PRIMARY KEY,"
-    		+ "  title TEXT NOT NULL,"
-    		+ "  subtitle TEXT NOT NULL,"
-    		+ "  content text NOT NULL,"
-    		+ "  menu_id INTEGER NOT NULL"
+    		, "CREATE TABLE IF NOT EXISTS " + PagesContract.TABLE_NAME + " ("
+    		+ "  " + PagesContract.COLUMN_NAME_ID + " INTEGER PRIMARY KEY,"
+    		+ "  " + PagesContract.COLUMN_NAME_TITLE + " TEXT NOT NULL,"
+    		+ "  " + PagesContract.COLUMN_NAME_SUBTITLE + " TEXT NOT NULL,"
+    		+ "  " + PagesContract.COLUMN_NAME_CONTENT + " text NOT NULL,"
+    		+ "  " + PagesContract.COLUMN_NAME_MENU_ID + " INTEGER NOT NULL"
     		+ ");"
     		, "CREATE TABLE IF NOT EXISTS resources ("
     		+ "  id INTEGER PRIMARY KEY,"
@@ -82,15 +82,11 @@ public class LocalConnector extends SQLiteOpenHelper implements OConnector {
     		+ "  description TEXT NOT NULL,"
     		+ "  type TEXT NOT NULL"
     		+ ");"
-    		, "CREATE INDEX IF NOT EXISTS pages_menu_id ON pages (menu_id);"
+    		, "CREATE INDEX IF NOT EXISTS pages_menu_id ON " + PagesContract.TABLE_NAME + " (menu_id);"
     		, "CREATE INDEX IF NOT EXISTS groups_menu_id ON groups (menu_id);"};
 
-	private Context context = null;
-	
-	
 	public LocalConnector(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		this.context = context;
 	}
 
 	@Override
@@ -100,8 +96,7 @@ public class LocalConnector extends SQLiteOpenHelper implements OConnector {
 		for (String createTableStatement : CREATE_TABLES) {
 			db.execSQL(createTableStatement);
 		}
-		
-		Toast.makeText(context, "Database updated.", Toast.LENGTH_SHORT).show();
+		System.out.println("LocalConnector: onCreate completed");
 	}
 
 	@Override
@@ -119,11 +114,11 @@ public class LocalConnector extends SQLiteOpenHelper implements OConnector {
 		    	writableDatabase.beginTransaction();
 		    	try {
 		    		for (Affiliation affiliation : affiliations) {
-		    			String query = "INSERT INTO " + affiliations.getRowElement() + " VALUES ("
-		    					+ affiliation.getId() + ", "
-		    					+ affiliation.getPageId() + ", "
-		    					+ affiliation.getGroupId() + ", "
-		    					+ affiliation.getOrder() + ");";
+		    			String query = "INSERT INTO " + affiliations.getTableName() + " VALUES (\""
+		    					+ affiliation.getId() + "\", \""
+		    					+ affiliation.getPageId() + "\", \""
+		    					+ affiliation.getGroupId() + "\", \""
+		    					+ affiliation.getOrder() + "\");";
 		    			getWritableDatabase().execSQL(query);
 		    		}
 		    	    writableDatabase.setTransactionSuccessful();
@@ -147,10 +142,10 @@ public class LocalConnector extends SQLiteOpenHelper implements OConnector {
 		    	writableDatabase.beginTransaction();
 		    	try {
 		    		for (Group group : groups) {
-		    			String query = "INSERT INTO " + groups.getRowElement() + " VALUES ("
-		    					+ group.getId() + ", "
-		    					+ group.getName() + ", "
-		    					+ group.getMenuId() + ");";
+		    			String query = "INSERT INTO " + groups.getTableName() + " VALUES (\""
+		    					+ group.getId() + "\", \""
+		    					+ group.getName() + "\", \""
+		    					+ group.getMenuId() + "\");";
 		    			getWritableDatabase().execSQL(query);
 		    		}
 		    	    writableDatabase.setTransactionSuccessful();
@@ -174,12 +169,12 @@ public class LocalConnector extends SQLiteOpenHelper implements OConnector {
 		    	writableDatabase.beginTransaction();
 		    	try {
 		    		for (Menu menu : menus) {
-		    			String query = "INSERT INTO " + menus.getRowElement() + " VALUES ("
-		    					+ menu.getId() + ", "
-		    					+ menu.getTitle() + ", "
-		    					+ menu.getDescription() + ", "
-		    					+ menu.getImgURL() + ", "
-		    					+ menu.getThumbImgURL() + ");";
+		    			String query = "INSERT INTO " + menus.getTableName() + " VALUES (\""
+		    					+ menu.getId() + "\", \""
+		    					+ menu.getTitle() + "\", \""
+		    					+ menu.getDescription() + "\", \""
+		    					+ menu.getThumbImgURL() + "\", \""
+		    					+ menu.getImgURL() + "\");";
 		    			getWritableDatabase().execSQL(query);
 		    		}
 		    	    writableDatabase.setTransactionSuccessful();
@@ -203,11 +198,12 @@ public class LocalConnector extends SQLiteOpenHelper implements OConnector {
 		    	writableDatabase.beginTransaction();
 		    	try {
 		    		for (Page page : pages) {
-		    			String query = "INSERT INTO " + pages.getRowElement() + " VALUES ("
-		    					+ page.getId() + ", "
-		    					+ page.getTitle() + ", "
-		    					+ page.getSubtitle() + ", "
-		    					+ page.getImgURL() + ");";
+		    			String query = "INSERT INTO " + pages.getTableName() + " VALUES (\""
+		    					+ page.getId() + "\", \""
+		    					+ page.getTitle() + "\", \""
+		    					+ page.getSubtitle() + "\", \""
+		    					+ page.getContent() + "\", \""
+		    					+ page.getMenuId() + "\");";
 		    			getWritableDatabase().execSQL(query);
 		    		}
 		    	    writableDatabase.setTransactionSuccessful();
@@ -231,12 +227,12 @@ public class LocalConnector extends SQLiteOpenHelper implements OConnector {
 		    	writableDatabase.beginTransaction();
 		    	try {
 		    		for (Resource resource : resources) {
-		    			String query = "INSERT INTO " + resources.getRowElement() + " VALUES ("
-		    					+ resource.getId() + ", "
-		    					+ resource.getTitle() + ", "
-		    					+ resource.getDescription() + ", "
-		    					+ resource.getURL() + ", "
-		    					+ resource.getType() + ");";
+		    			String query = "INSERT INTO " + resources.getTableName() + " VALUES (\""
+		    					+ resource.getId() + "\", \""
+		    					+ resource.getTitle() + "\", \""
+		    					+ resource.getURL() + "\", \""
+		    					+ resource.getDescription() + "\", \""
+		    					+ resource.getType() + "\");";
 		    			getWritableDatabase().execSQL(query);
 		    		}
 		    	    writableDatabase.setTransactionSuccessful();

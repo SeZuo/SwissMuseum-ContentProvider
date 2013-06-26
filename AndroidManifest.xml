@@ -51,6 +51,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.MainActivity" />
         </activity>
+        <provider
+      		android:authorities="ch.sebastienzurfluh.swissmuseumguides.contentprovider"
+       		android:name="ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.Database"
+            android:readPermission="ch.sebastienzurfluh.swissmuseumguides.READ_PERMISSION" >
+		</provider> 
     </application>
 
 </manifest>
