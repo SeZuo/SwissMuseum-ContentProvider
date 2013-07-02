@@ -36,14 +36,16 @@ public class DatabaseUpdaterActivity extends Activity {
 
 	private ProgressBar mProgress;
 	private int mProgressStatus = 0;
+	
+	private static String domain = "http://sebastienzurfluh.dreamhosters.com/" +
+			"swissmuseumbooklets/cakePHPv2/index.php";
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(false);
+		
 
 		setContentView(R.layout.activity_update_db);
 
@@ -56,10 +58,10 @@ public class DatabaseUpdaterActivity extends Activity {
 		mProgress.setProgress(++mProgressStatus);
 
 
-		new Thread(new Runnable() {
+		Thread downloadAffiliations = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				new RemoteConnector("http://192.168.50.64/SwissMuseumParcours/CakePHPv2/index.php")
+				new RemoteConnector(domain)
 						.getAffiliations(new AsyncCallback<Affiliations>() {
 
 					@Override
@@ -77,12 +79,14 @@ public class DatabaseUpdaterActivity extends Activity {
 					}
 				});
 			}
-		}).start();
+		});
+		downloadAffiliations.start();
+		
 
-		new Thread(new Runnable() {
+		Thread downloadGroups = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				new RemoteConnector("http://192.168.50.64/SwissMuseumParcours/CakePHPv2/index.php")
+				new RemoteConnector(domain)
 						.getGroups(new AsyncCallback<Groups>() {
 
 					@Override
@@ -99,12 +103,14 @@ public class DatabaseUpdaterActivity extends Activity {
 					}
 				});
 			}
-		}).start();
+		});
+		downloadGroups.start();
+		
 
-		new Thread(new Runnable() {
+		Thread downloadMenus = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				new RemoteConnector("http://192.168.50.64/SwissMuseumParcours/CakePHPv2/index.php")
+				new RemoteConnector(domain)
 						.getMenus(new AsyncCallback<Menus>() {
 
 					@Override
@@ -121,12 +127,14 @@ public class DatabaseUpdaterActivity extends Activity {
 					}
 				});
 			}
-		}).start();
+		});
+		downloadMenus.start();
+		
 
-		new Thread(new Runnable() {
+		Thread downloadPages = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				new RemoteConnector("http://192.168.50.64/SwissMuseumParcours/CakePHPv2/index.php")
+				new RemoteConnector(domain)
 						.getPages(new AsyncCallback<Pages>() {
 
 					@Override
@@ -143,12 +151,14 @@ public class DatabaseUpdaterActivity extends Activity {
 					}
 				});
 			}
-		}).start();
+		});
+		downloadPages.start();
+		
 
-		new Thread(new Runnable() {
+		Thread downloadResources = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				new RemoteConnector("http://192.168.50.64/SwissMuseumParcours/CakePHPv2/index.php")
+				new RemoteConnector(domain)
 						.getResources(new AsyncCallback<Resources>() {
 
 					@Override
@@ -165,6 +175,8 @@ public class DatabaseUpdaterActivity extends Activity {
 					}
 				});
 			}
-		}).start();
+		});
+		downloadResources.start();
+		
 	}
 }

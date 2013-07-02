@@ -21,7 +21,6 @@ package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model;
 
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.connectors.LocalConnector;
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -39,7 +38,17 @@ public class Database extends ContentProvider {
 	
 	private static final String AUTHORITY = "ch.sebastienzurfluh.swissmuseumguides.contentprovider";
 	
-	
+	private static final int PAGES_GET = 1;
+	private static final int MENUS_GETALL = 2;
+	private static final int RESOURCES_GET = 3;
+
+    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+    static {
+        uriMatcher.addURI(AUTHORITY, "/pages/get/#", PAGES_GET);
+        uriMatcher.addURI(AUTHORITY, "/menus/listAll", MENUS_GETALL);
+        uriMatcher.addURI(AUTHORITY, "/resources/get/#", RESOURCES_GET);
+    }
 
 	private SQLiteOpenHelper database;
 
@@ -56,6 +65,21 @@ public class Database extends ContentProvider {
 		//TODO: this is the only function we have to implement here!
 	
 		// here comes the functions we need.
+		switch(uriMatcher.match(uri)) {
+		case PAGES_GET:
+			System.out.println(uri.toString());
+			break;
+		case MENUS_GETALL:
+			System.out.println(uri.toString());
+			break;
+		case RESOURCES_GET:
+			System.out.println(uri.toString());
+			break;
+		case UriMatcher.NO_MATCH:
+		default:
+			System.out.println("URI IS WRONG : " + uri.toString());
+			break;
+		}
 		
 		
 		return null;

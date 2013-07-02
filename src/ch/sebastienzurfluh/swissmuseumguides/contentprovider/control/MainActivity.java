@@ -20,6 +20,7 @@
 package ch.sebastienzurfluh.swissmuseumguides.contentprovider.control;
 
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.R;
+import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.Database;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -42,14 +43,16 @@ public class MainActivity extends Activity {
 	}
 	
 	/**
-	 * Updates (creates if needed) the database.
+	 * Action for the button which updates (creates if needed) the database.
 	 * @param view because we have to (do we?)
 	 */
 	public void update(View view) {
 		findViewById(R.id.updateButton).setEnabled(false);
+
+		Database database = new Database();
 		
-		Intent updateTheDB = new Intent(this, DatabaseUpdaterActivity.class);
-		startActivity(updateTheDB);
+//		Intent updateTheDB = new Intent(this, DatabaseUpdaterActivity.class);
+//		startActivity(updateTheDB);
 	}
 
 }
