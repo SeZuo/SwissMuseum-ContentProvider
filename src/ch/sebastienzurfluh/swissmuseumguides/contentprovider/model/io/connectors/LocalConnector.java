@@ -21,7 +21,9 @@ package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.connector
 
 import org.json.JSONException;
 
+import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.interfaces.IOConnector;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.interfaces.OConnector;
+import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.AffiliationsContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.GroupsContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.MenusContract;
@@ -38,6 +40,7 @@ import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.impl.Resource;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.impl.Resources;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -48,7 +51,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * @author Sebastien Zurfluh
  *
  */
-public class LocalConnector extends SQLiteOpenHelper implements OConnector {
+public class LocalConnector extends SQLiteOpenHelper implements IOConnector {
 	
 	private static final String DATABASE_NAME = "swissmuseumguides";
 	private static final int DATABASE_VERSION = 2;
@@ -257,6 +260,33 @@ public class LocalConnector extends SQLiteOpenHelper implements OConnector {
 		    	}
 		    }
 		}.start();
+	}
+
+	@Override
+	public Cursor getPagesMenusInGroup(int groupId) {
+		String query = "SELECT "
+				+ DALContract.PagesContract.COLUMN_NAME_ID + " AS \"_id\", "
+				+ DALContract.MenusContract.COLUMN_NAME_TITLE + ", "
+				+ DALContract.MenusContract.COLUMN_NAME_DESCRIPTION + ", "
+				+ DALContract.MenusContract.COLUMN_NAME_THUMB_IMG_URL + ", "
+				+ DALContract.MenusContract.COLUMN_NAME_IMG_URL + ", "
+				+ DALContract.AffiliationsContract.COLUMN_NAME_ORDER + " "
+				+ " FROM "
+				+ DALContract.PagesContract.TABLE_NAME + ", "
+				+ DALContract.MenusContract.TABLE_NAME + ", "
+				+ DALContract.AffiliationsContract.TABLE_NAME
+				+ " WHERE pages.id = affiliations.page_id"
+				+ " AND affiliations.group_id = ?"
+				+ " AND menus.id = pages.menu_id"
+				+ " ORDER BY affiliations.order;";
+		
+		return getWritableDatabase().rawQuery(query, new String[]{String.valueOf(groupId)});
+	}
+
+	@Override
+	public Cursor getPage(int pageId) {
+		//TODO
+		return null;
 	}
 
 }

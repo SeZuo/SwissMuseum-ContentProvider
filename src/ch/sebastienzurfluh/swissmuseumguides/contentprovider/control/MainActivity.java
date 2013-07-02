@@ -49,10 +49,8 @@ public class MainActivity extends Activity {
 	public void update(View view) {
 		findViewById(R.id.updateButton).setEnabled(false);
 
-		Database database = new Database();
-		
-//		Intent updateTheDB = new Intent(this, DatabaseUpdaterActivity.class);
-//		startActivity(updateTheDB);
+		Intent updateTheDB = new Intent(this, DatabaseUpdaterActivity.class);
+		startActivity(updateTheDB);
 	}
 
 }

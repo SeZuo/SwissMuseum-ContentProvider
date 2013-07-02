@@ -36,21 +36,24 @@ import android.net.Uri;
  */
 public class Database extends ContentProvider {
 	
-	private static final String AUTHORITY = "ch.sebastienzurfluh.swissmuseumguides.contentprovider";
-	
 	private static final int PAGES_GET = 1;
-	private static final int MENUS_GETALL = 2;
+	private static final int MENUS_LISTALLPAGEMENUSFROUMGROUP = 2;
 	private static final int RESOURCES_GET = 3;
+	
+	private static final String AUTHORITY = "ch.sebastienzurfluh.swissmuseum.contentprovider";
+	private static final String CONTENT_URI_ROOT = "content://" + AUTHORITY + "/";
 
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        uriMatcher.addURI(AUTHORITY, "/pages/get/#", PAGES_GET);
-        uriMatcher.addURI(AUTHORITY, "/menus/listAll", MENUS_GETALL);
-        uriMatcher.addURI(AUTHORITY, "/resources/get/#", RESOURCES_GET);
+//        uriMatcher.addURI(CALContract.AUTHORITY, CONTENT_URI_ROOT + "pages/#", PAGES_GET);
+        uriMatcher.addURI(
+        		AUTHORITY, CONTENT_URI_ROOT + "pages/getGroup/#",
+        		MENUS_LISTALLPAGEMENUSFROUMGROUP);
+//        uriMatcher.addURI(CALContract.AUTHORITY, CONTENT_URI_ROOT + "resources/#", RESOURCES_GET);
     }
 
-	private SQLiteOpenHelper database;
+	private LocalConnector database;
 
 	@Override
 	public boolean onCreate() {
@@ -66,36 +69,27 @@ public class Database extends ContentProvider {
 	
 		// here comes the functions we need.
 		switch(uriMatcher.match(uri)) {
-		case PAGES_GET:
+//		case PAGES_GET:
+//			System.out.println(uri.toString());
+//			break;
+		case MENUS_LISTALLPAGEMENUSFROUMGROUP: // listAllPageMenusFromGroup
 			System.out.println(uri.toString());
+			
+			//TODO retrive id in the query uri
+			// database.getPagesMenusInGroup(#group_id)
+			
+			
 			break;
-		case MENUS_GETALL:
-			System.out.println(uri.toString());
-			break;
-		case RESOURCES_GET:
-			System.out.println(uri.toString());
-			break;
-		case UriMatcher.NO_MATCH:
+//		case RESOURCES_GET:
+//			System.out.println(uri.toString());
+//			break;
+//		case UriMatcher.NO_MATCH:
 		default:
 			System.out.println("URI IS WRONG : " + uri.toString());
 			break;
 		}
 		
 		
-		return null;
-	}
-	
-	
-	private Cursor menusListAllPageMenusFromGroup() {
-		return null;
-	}
-	
-	private Cursor pagesGetData(int pageId) {
-		return null;
-	}
-	
-	private Cursor resourcesGet(int resourceId) {
-		//TODO later.... we don't need this just yet (but we will once we get rid of the web views)
 		return null;
 	}
 	

@@ -19,6 +19,8 @@
 
 package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.interfaces;
 
+import android.database.Cursor;
+
 /**
  * Get the needed data from the DB.
  * This interface provides higher order queries than the BasicInputConnector.
@@ -27,6 +29,16 @@ package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.interface
  *
  */
 public interface IConnector {
-	//TODO Define the need for queries. They should provide for the facade.
-
+	
+	/**
+	 * @param groupId
+	 * @return the list of all the pages' menus in the given group
+	 */
+	Cursor getPagesMenusInGroup(int groupId);
+	
+	/**
+	 * @param pageId
+	 * @return the bare page
+	 */
+	Cursor getPage(int pageId);
 }
