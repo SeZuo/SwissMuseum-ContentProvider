@@ -22,8 +22,6 @@ package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.connector
 import org.json.JSONException;
 
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.interfaces.IOConnector;
-import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.interfaces.OConnector;
-import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.AffiliationsContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.GroupsContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.MenusContract;
@@ -265,22 +263,27 @@ public class LocalConnector extends SQLiteOpenHelper implements IOConnector {
 	@Override
 	public Cursor getPagesMenusInGroup(int groupId) {
 		String query = "SELECT "
-				+ DALContract.PagesContract.COLUMN_NAME_ID + " AS \"_id\", "
-				+ DALContract.MenusContract.COLUMN_NAME_TITLE + ", "
-				+ DALContract.MenusContract.COLUMN_NAME_DESCRIPTION + ", "
-				+ DALContract.MenusContract.COLUMN_NAME_THUMB_IMG_URL + ", "
-				+ DALContract.MenusContract.COLUMN_NAME_IMG_URL + ", "
-				+ DALContract.AffiliationsContract.COLUMN_NAME_ORDER + " "
+				+ MenusContract.COLUMN_NAME_ID + " AS \"_id\", "
+				+ MenusContract.COLUMN_NAME_TITLE + ", "
+				+ MenusContract.COLUMN_NAME_DESCRIPTION + ", "
+				+ MenusContract.COLUMN_NAME_THUMB_IMG_URL + ", "
+				+ MenusContract.COLUMN_NAME_IMG_URL + ", "
+				+ PagesContract.COLUMN_NAME_ID + " AS \"page_id\", "
+				+ AffiliationsContract.COLUMN_NAME_ORDER + " "
 				+ " FROM "
-				+ DALContract.PagesContract.TABLE_NAME + ", "
-				+ DALContract.MenusContract.TABLE_NAME + ", "
-				+ DALContract.AffiliationsContract.TABLE_NAME
-				+ " WHERE pages.id = affiliations.page_id"
-				+ " AND affiliations.group_id = ?"
-				+ " AND menus.id = pages.menu_id"
-				+ " ORDER BY affiliations.order;";
+				+ PagesContract.TABLE_NAME + ", "
+				+ MenusContract.TABLE_NAME + ", "
+				+ AffiliationsContract.TABLE_NAME
+				+ " WHERE "
+				+ PagesContract.COLUMN_NAME_ID + "=" + AffiliationsContract.COLUMN_NAME_PAGE_ID
+				+ " AND "
+				+ AffiliationsContract.COLUMN_NAME_GROUP_ID + "= ?"
+				+ " AND "
+				+ MenusContract.COLUMN_NAME_ID + "=" + PagesContract.COLUMN_NAME_MENU_ID
+				+ " ORDER BY "
+				+ AffiliationsContract.COLUMN_NAME_ORDER + ";";
 		
-		return getWritableDatabase().rawQuery(query, new String[]{String.valueOf(groupId)});
+		return getReadableDatabase().rawQuery(query, new String[]{String.valueOf(groupId)});
 	}
 
 	@Override

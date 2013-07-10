@@ -24,7 +24,6 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 /**
@@ -75,10 +74,7 @@ public class Database extends ContentProvider {
 		case MENUS_LISTALLPAGEMENUSFROUMGROUP: // listAllPageMenusFromGroup
 			System.out.println(uri.toString());
 			
-			//TODO retrive id in the query uri
-			// database.getPagesMenusInGroup(#group_id)
-			
-			
+			database.getPagesMenusInGroup(Integer.valueOf(selectionArgs[0]));
 			break;
 //		case RESOURCES_GET:
 //			System.out.println(uri.toString());
