@@ -1,4 +1,4 @@
 SwissMuseum-ContentProvider
 ===========================
 
-Part of the SwissMuseumGuides project. Synchronise the remote database to local (with GUI). Provides the data for android apps.
+Part of the SwissMuseum's Guides project. Synchronise the remote database to local (with GUI). Provides the data for android apps.

@@ -22,9 +22,9 @@ package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.PagesContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.RowFactory;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.TableAbstract;
+import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.PagesContract;
 
 public class Pages extends TableAbstract<Page> {
 	private static final long serialVersionUID = 1L;

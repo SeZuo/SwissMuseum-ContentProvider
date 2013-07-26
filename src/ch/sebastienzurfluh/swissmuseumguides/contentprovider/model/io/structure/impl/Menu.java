@@ -21,8 +21,8 @@ package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure
 
 import org.json.JSONException;
 
-import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.MenusContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.RowAbstract;
+import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.MenusContract;
 
 /**
  * Defines getters for a line in the menus table.

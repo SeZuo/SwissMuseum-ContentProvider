@@ -260,36 +260,49 @@ public class LocalConnector extends SQLiteOpenHelper implements IOConnector {
 		}.start();
 	}
 
+	/**
+	 * @param groupId or use -1 if you want to get all pages' menus.
+	 */
 	@Override
 	public Cursor getPagesMenusInGroup(int groupId) {
 		String query = "SELECT "
-				+ MenusContract.COLUMN_NAME_ID + " AS \"_id\", "
-				+ MenusContract.COLUMN_NAME_TITLE + ", "
-				+ MenusContract.COLUMN_NAME_DESCRIPTION + ", "
-				+ MenusContract.COLUMN_NAME_THUMB_IMG_URL + ", "
-				+ MenusContract.COLUMN_NAME_IMG_URL + ", "
-				+ PagesContract.COLUMN_NAME_ID + " AS \"page_id\", "
-				+ AffiliationsContract.COLUMN_NAME_ORDER + " "
+				+ MenusContract.ID + " AS \"_id\", " // Cursor needs _id
+				+ MenusContract.TITLE + ", "
+				+ MenusContract.DESCRIPTION + ", "
+				+ MenusContract.THUMB_IMG_URL + ", "
+				+ MenusContract.IMG_URL + ", "
+				+ AffiliationsContract.PAGE_ID + ", " // we want to differentiate page_id from _id
+				+ AffiliationsContract.ORDER
 				+ " FROM "
 				+ PagesContract.TABLE_NAME + ", "
 				+ MenusContract.TABLE_NAME + ", "
 				+ AffiliationsContract.TABLE_NAME
 				+ " WHERE "
-				+ PagesContract.COLUMN_NAME_ID + "=" + AffiliationsContract.COLUMN_NAME_PAGE_ID
+				+ PagesContract.ID + "=" + AffiliationsContract.PAGE_ID
 				+ " AND "
-				+ AffiliationsContract.COLUMN_NAME_GROUP_ID + "= ?"
+				+ AffiliationsContract.GROUP_ID + "= ?"
 				+ " AND "
-				+ MenusContract.COLUMN_NAME_ID + "=" + PagesContract.COLUMN_NAME_MENU_ID
+				+ MenusContract.ID + "=" + PagesContract.MENU_ID
 				+ " ORDER BY "
-				+ AffiliationsContract.COLUMN_NAME_ORDER + ";";
+				+ AffiliationsContract.ORDER + ";";
 		
-		return getReadableDatabase().rawQuery(query, new String[]{String.valueOf(groupId)});
+		String[] groupIdArgs = (groupId >= 0) ?
+				new String[]{String.valueOf(groupId)} : new String[]{"*"};
+
+		return getReadableDatabase().rawQuery(query, groupIdArgs);
 	}
 
+	@Override
+	public Cursor getAllPagesMenus() {
+		return getPagesMenusInGroup(-1);
+	}
+	
+	
 	@Override
 	public Cursor getPage(int pageId) {
 		//TODO
 		return null;
 	}
+
 
 }

@@ -19,7 +19,12 @@
     </uses-permission>
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" >
     </uses-permission>
-    
+
+    <permission android:name="ch.sebastienzurfluh.swissmuseumguides.permissions.READ_PERMISSION"
+                android:label="permission_read_access_label"
+                android:description="@string/permission_read_access_description"
+                android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -54,7 +59,7 @@
         <provider
       		android:authorities="ch.sebastienzurfluh.swissmuseumguides.contentprovider"
        		android:name="ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.Database"
-            android:readPermission="ch.sebastienzurfluh.swissmuseumguides.READ_PERMISSION" >
+       		android:readPermission="ch.sebastienzurfluh.swissmuseumguides.permissions.READ_PERMISSION" >
 		</provider> 
     </application>
 

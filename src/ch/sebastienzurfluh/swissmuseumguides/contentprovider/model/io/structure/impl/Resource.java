@@ -21,8 +21,8 @@ package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure
 
 import org.json.JSONException;
 
-import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.ResourcesContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.RowAbstract;
+import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.ResourcesContract;
 
 /**
  * Defines getters for a line in the pages table.

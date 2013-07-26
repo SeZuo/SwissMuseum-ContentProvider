@@ -36,6 +36,14 @@ public interface IConnector {
 	 */
 	Cursor getPagesMenusInGroup(int groupId);
 	
+	
+	/**
+	 * @return the list of all the pages' menus
+	 */
+	Cursor getAllPagesMenus();
+	
+	
+	
 	/**
 	 * @param pageId
 	 * @return the bare page

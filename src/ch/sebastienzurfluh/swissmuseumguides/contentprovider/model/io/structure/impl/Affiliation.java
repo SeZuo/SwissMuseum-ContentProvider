@@ -21,8 +21,8 @@ package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure
 
 import org.json.JSONException;
 
-import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.AffiliationsContract;
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.RowAbstract;
+import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.structure.DALContract.AffiliationsContract;
 
 /**
  * Defines getters for a line in the affiliations table.

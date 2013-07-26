@@ -57,7 +57,7 @@ public class RemoteConnector extends AsyncTask<URI, Integer, String> implements 
 	private final static String CAKE_SUFFIX = ".json";
 	private final static String CAKE_ARGS_SEPARATOR = "/";
 	
-	private HttpClient client;
+	private AndroidHttpClient client;
 
 	/**
 	 * This callback will be called when the asynchronous task is finished.
@@ -81,8 +81,6 @@ public class RemoteConnector extends AsyncTask<URI, Integer, String> implements 
 	 */
 	public RemoteConnector(String cakePath) {
 		this.cakePath = cakePath;
-		
-		client = AndroidHttpClient.newInstance("Android");
 	}
 	
 	
@@ -108,8 +106,14 @@ public class RemoteConnector extends AsyncTask<URI, Integer, String> implements 
 			asyncCallback.onFailure(e);
 		}
 	}
-	
-	@Override
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        client = AndroidHttpClient.newInstance("Android");
+    }
+
+    @Override
 	protected String doInBackground(URI... params) {
 		URI url = params[0];
 		StringBuilder builder = new StringBuilder();
@@ -140,6 +144,8 @@ public class RemoteConnector extends AsyncTask<URI, Integer, String> implements 
 		if(result != null)
 			asyncCallback.onSuccess(result);
 		asyncCallback.onFailure(new Throwable("Data result is empty"));
+        client.close();
+        client = null;
     }
 
 	

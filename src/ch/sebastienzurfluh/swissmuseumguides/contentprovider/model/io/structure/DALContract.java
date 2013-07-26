@@ -41,10 +41,16 @@ public abstract class DALContract {
 		 * the contract but cake's queries are tricky.
 		 */
 		public static final String ROW_ELEMENT_NAME = "affiliations";
-		public static final String COLUMN_NAME_ID = TABLE_NAME + POINT + "id";
-		public static final String COLUMN_NAME_PAGE_ID = TABLE_NAME + POINT + "page_id";
-		public static final String COLUMN_NAME_GROUP_ID = TABLE_NAME + POINT + "group_id";
-		public static final String COLUMN_NAME_ORDER = TABLE_NAME + POINT + "order";
+		
+		public static final String COLUMN_NAME_ID = "id";
+		public static final String COLUMN_NAME_PAGE_ID =  "page_id";
+		public static final String COLUMN_NAME_GROUP_ID = "group_id";
+		public static final String COLUMN_NAME_ORDER = "order";
+		
+		public static final String ID = TABLE_NAME + POINT + COLUMN_NAME_ID;
+		public static final String PAGE_ID = TABLE_NAME + POINT + COLUMN_NAME_PAGE_ID;
+		public static final String GROUP_ID = TABLE_NAME + POINT + COLUMN_NAME_GROUP_ID; 
+		public static final String ORDER = TABLE_NAME + POINT + COLUMN_NAME_ORDER;
 	}
 	
 	public static abstract class GroupsContract implements BaseColumns {
@@ -54,9 +60,14 @@ public abstract class DALContract {
 		 * the contract but cake's queries are tricky.
 		 */
 		public static final String ROW_ELEMENT_NAME = "Group";
-		public static final String COLUMN_NAME_ID = TABLE_NAME + POINT + "id";
-		public static final String COLUMN_NAME_NAME = TABLE_NAME + POINT + "name";
-		public static final String COLUMN_NAME_MENU_ID = TABLE_NAME + POINT + "menu_id";
+		
+		public static final String COLUMN_NAME_ID = "id";
+		public static final String COLUMN_NAME_NAME = "name";
+		public static final String COLUMN_NAME_MENU_ID = "menu_id";
+		
+		public static final String ID = TABLE_NAME + POINT + COLUMN_NAME_ID;
+		public static final String NAME = TABLE_NAME + POINT + COLUMN_NAME_NAME;
+		public static final String MENU_ID = TABLE_NAME + POINT + COLUMN_NAME_MENU_ID;
 	}
 	
 	public static abstract class MenusContract implements BaseColumns {
@@ -66,11 +77,18 @@ public abstract class DALContract {
 		 * the contract but cake's queries are tricky.
 		 */
 		public static final String ROW_ELEMENT_NAME = "Menu";
+		
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_TITLE = "title";
 		public static final String COLUMN_NAME_DESCRIPTION = "description";
 		public static final String COLUMN_NAME_THUMB_IMG_URL = "thumb_img_url";
 		public static final String COLUMN_NAME_IMG_URL = "img_url";
+
+		public static final String ID = TABLE_NAME + POINT + COLUMN_NAME_ID;
+		public static final String TITLE = TABLE_NAME + POINT + COLUMN_NAME_TITLE;
+		public static final String DESCRIPTION = TABLE_NAME + POINT + COLUMN_NAME_DESCRIPTION;
+		public static final String THUMB_IMG_URL = TABLE_NAME + POINT + COLUMN_NAME_THUMB_IMG_URL;
+		public static final String IMG_URL = TABLE_NAME + POINT + COLUMN_NAME_IMG_URL;
 	}
 	
 	public static abstract class PagesContract implements BaseColumns {
@@ -83,11 +101,18 @@ public abstract class DALContract {
 		 * the contract but cake's queries are tricky.
 		 */
 		public static final String ROW_ELEMENT_NAME = "PageElement";
-		public static final String COLUMN_NAME_ID = TABLE_NAME + POINT + "id";
-		public static final String COLUMN_NAME_TITLE = TABLE_NAME + POINT + "title";
-		public static final String COLUMN_NAME_SUBTITLE = TABLE_NAME + POINT + "subtitle";
-		public static final String COLUMN_NAME_CONTENT = TABLE_NAME + POINT + "content";
-		public static final String COLUMN_NAME_MENU_ID = TABLE_NAME + POINT + "menu_id";
+
+		public static final String COLUMN_NAME_ID = "id";
+		public static final String COLUMN_NAME_TITLE = "title";
+		public static final String COLUMN_NAME_SUBTITLE = "subtitle";
+		public static final String COLUMN_NAME_CONTENT = "content";
+		public static final String COLUMN_NAME_MENU_ID = "menu_id";
+
+		public static final String ID = TABLE_NAME + POINT + COLUMN_NAME_ID; 
+		public static final String TITLE = TABLE_NAME + POINT + COLUMN_NAME_TITLE;
+		public static final String SUBTITLE = TABLE_NAME + POINT + COLUMN_NAME_SUBTITLE;
+		public static final String CONTENT = TABLE_NAME + POINT + COLUMN_NAME_CONTENT;
+		public static final String MENU_ID = TABLE_NAME + POINT + COLUMN_NAME_MENU_ID;
 	}
 
 	public static abstract class ResourcesContract implements BaseColumns {
@@ -97,10 +122,17 @@ public abstract class DALContract {
 		 * the contract but cake's queries are tricky.
 		 */
 		public static final String ROW_ELEMENT_NAME = "Resource";
-		public static final String COLUMN_NAME_ID = TABLE_NAME + POINT + "id";
-		public static final String COLUMN_NAME_TITLE = TABLE_NAME + POINT + "title";
-		public static final String COLUMN_NAME_URL = TABLE_NAME + POINT + "url";
-		public static final String COLUMN_NAME_DESCRIPTION = TABLE_NAME + POINT + "description";
-		public static final String COLUMN_NAME_TYPE = TABLE_NAME + POINT + "type";
+		
+		public static final String COLUMN_NAME_ID = "id";
+		public static final String COLUMN_NAME_TITLE = "title";
+		public static final String COLUMN_NAME_URL = "url";
+		public static final String COLUMN_NAME_DESCRIPTION = "description";
+		public static final String COLUMN_NAME_TYPE = "type";
+		
+		public static final String ID = TABLE_NAME + POINT + COLUMN_NAME_ID; 
+		public static final String TITLE = TABLE_NAME + POINT + COLUMN_NAME_TITLE;
+		public static final String URL = TABLE_NAME + POINT + COLUMN_NAME_URL;
+		public static final String DESCRIPTION = TABLE_NAME + POINT + COLUMN_NAME_DESCRIPTION;
+		public static final String TYPE = TABLE_NAME + POINT + COLUMN_NAME_TYPE;
 	}
 }

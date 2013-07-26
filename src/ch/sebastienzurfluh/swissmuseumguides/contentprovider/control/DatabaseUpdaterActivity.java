@@ -179,4 +179,9 @@ public class DatabaseUpdaterActivity extends Activity {
 		downloadResources.start();
 		
 	}
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 }

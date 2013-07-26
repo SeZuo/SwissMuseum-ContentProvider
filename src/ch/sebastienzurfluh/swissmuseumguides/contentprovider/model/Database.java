@@ -20,6 +20,7 @@
 package ch.sebastienzurfluh.swissmuseumguides.contentprovider.model;
 
 import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.connectors.LocalConnector;
+import ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.io.interfaces.IConnector;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -36,10 +37,10 @@ import android.net.Uri;
 public class Database extends ContentProvider {
 	
 	private static final int PAGES_GET = 1;
-	private static final int MENUS_LISTALLPAGEMENUSFROUMGROUP = 2;
+	private static final int MENUS_LISTALLPAGEMENUS = 2;
 	private static final int RESOURCES_GET = 3;
 	
-	private static final String AUTHORITY = "ch.sebastienzurfluh.swissmuseum.contentprovider";
+	private static final String AUTHORITY = "ch.sebastienzurfluh.swissmuseumguides.contentprovider";
 	private static final String CONTENT_URI_ROOT = "content://" + AUTHORITY + "/";
 
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -47,12 +48,12 @@ public class Database extends ContentProvider {
     static {
 //        uriMatcher.addURI(CALContract.AUTHORITY, CONTENT_URI_ROOT + "pages/#", PAGES_GET);
         uriMatcher.addURI(
-        		AUTHORITY, CONTENT_URI_ROOT + "pages/getGroup/#",
-        		MENUS_LISTALLPAGEMENUSFROUMGROUP);
+        		AUTHORITY, CONTENT_URI_ROOT + "menus/listAll",
+        		MENUS_LISTALLPAGEMENUS);
 //        uriMatcher.addURI(CALContract.AUTHORITY, CONTENT_URI_ROOT + "resources/#", RESOURCES_GET);
     }
 
-	private LocalConnector database;
+	private IConnector database;
 
 	@Override
 	public boolean onCreate() {
@@ -71,10 +72,10 @@ public class Database extends ContentProvider {
 //		case PAGES_GET:
 //			System.out.println(uri.toString());
 //			break;
-		case MENUS_LISTALLPAGEMENUSFROUMGROUP: // listAllPageMenusFromGroup
+		case MENUS_LISTALLPAGEMENUS: // listAllPageMenusFromGroup
 			System.out.println(uri.toString());
 			
-			database.getPagesMenusInGroup(Integer.valueOf(selectionArgs[0]));
+			database.getAllPagesMenus();
 			break;
 //		case RESOURCES_GET:
 //			System.out.println(uri.toString());
