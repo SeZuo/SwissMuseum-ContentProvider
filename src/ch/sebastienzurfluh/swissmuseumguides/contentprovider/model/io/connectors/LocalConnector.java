@@ -52,13 +52,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class LocalConnector extends SQLiteOpenHelper implements IOConnector {
 	
 	private static final String DATABASE_NAME = "swissmuseumguides";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 8;
 	private static final String[] CREATE_TABLES = {
 		"CREATE TABLE IF  NOT EXISTS " + AffiliationsContract.TABLE_NAME + " ("
     		+ "  " + AffiliationsContract.COLUMN_NAME_ID + " INTEGER PRIMARY KEY,"
     		+ "  " + AffiliationsContract.COLUMN_NAME_PAGE_ID + " INTEGER NOT NULL,"
     		+ "  " + AffiliationsContract.COLUMN_NAME_GROUP_ID + " INTEGER NOT NULL,"
-    		+ "  \'" + AffiliationsContract.COLUMN_NAME_ORDER + "\' INTEGER NOT NULL"
+    		+ "  " + AffiliationsContract.COLUMN_NAME_ORDER + " INTEGER NOT NULL"
     		+ ");"
     		, "CREATE TABLE IF NOT EXISTS groups ("
     		+ "  id INTEGER PRIMARY KEY,"
@@ -131,8 +131,8 @@ public class LocalConnector extends SQLiteOpenHelper implements IOConnector {
 		    			String query = "INSERT OR REPLACE INTO " + affiliations.getTableName() + " VALUES (\""
 		    					+ affiliation.getId() + "\", \""
 		    					+ affiliation.getPageId() + "\", \""
-		    					+ affiliation.getGroupId() + "\", \""
-		    					+ affiliation.getOrder() + "\");";
+		    					+ affiliation.getGroupId() + "\", "
+		    					+ affiliation.getOrder() + ");";
 		    			getWritableDatabase().execSQL(query);
 		    		}
 		    	    writableDatabase.setTransactionSuccessful();
@@ -278,18 +278,29 @@ public class LocalConnector extends SQLiteOpenHelper implements IOConnector {
 				+ MenusContract.TABLE_NAME + ", "
 				+ AffiliationsContract.TABLE_NAME
 				+ " WHERE "
-				+ PagesContract.ID + "=" + AffiliationsContract.PAGE_ID
-				+ " AND "
-				+ AffiliationsContract.GROUP_ID + "= ?"
-				+ " AND "
+				+ PagesContract.ID + "=" + AffiliationsContract.PAGE_ID;
+
+        if (groupId >= 0)
+		    query += " AND "
+				+ AffiliationsContract.GROUP_ID + "=?";
+
+        query += " AND "
 				+ MenusContract.ID + "=" + PagesContract.MENU_ID
 				+ " ORDER BY "
-				+ AffiliationsContract.ORDER + ";";
+				+ AffiliationsContract.ORDER
+                + ";";
 		
 		String[] groupIdArgs = (groupId >= 0) ?
-				new String[]{String.valueOf(groupId)} : new String[]{"*"};
+				new String[]{String.valueOf(groupId)} : new String[]{};
 
-		return getReadableDatabase().rawQuery(query, groupIdArgs);
+        Cursor cursor = getReadableDatabase().rawQuery(query, groupIdArgs);
+
+        if (!(cursor.moveToFirst()) || cursor.getCount() ==0){
+            System.out.println("LocalConnector: CURSOR IS EMPTY!!!");
+        }
+
+
+		return cursor;
 	}
 
 	@Override

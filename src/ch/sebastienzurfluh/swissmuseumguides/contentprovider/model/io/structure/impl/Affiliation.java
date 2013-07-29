@@ -49,6 +49,9 @@ public class Affiliation extends RowAbstract {
 	}
 
 	public int getOrder() throws JSONException {
-		return getInt(AffiliationsContract.COLUMN_NAME_ORDER);
+        String orderColumnName = AffiliationsContract.COLUMN_NAME_ORDER;
+
+        // JSON uses order and not `order`. We need to get rid of the `s.
+        return getInt(orderColumnName.substring(1, orderColumnName.length()-1));
 	}
 }

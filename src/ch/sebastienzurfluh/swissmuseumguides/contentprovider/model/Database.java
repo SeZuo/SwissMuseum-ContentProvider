@@ -26,6 +26,9 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.RecoverySystem;
+
+import javax.xml.transform.sax.SAXSource;
 
 /**
  * Façade for the SwissMuseumGuides model.
@@ -48,7 +51,8 @@ public class Database extends ContentProvider {
     static {
 //        uriMatcher.addURI(CALContract.AUTHORITY, CONTENT_URI_ROOT + "pages/#", PAGES_GET);
         uriMatcher.addURI(
-        		AUTHORITY, CONTENT_URI_ROOT + "menus/listAll",
+        		AUTHORITY,
+                "menus/listAll",
         		MENUS_LISTALLPAGEMENUS);
 //        uriMatcher.addURI(CALContract.AUTHORITY, CONTENT_URI_ROOT + "resources/#", RESOURCES_GET);
     }
@@ -73,21 +77,15 @@ public class Database extends ContentProvider {
 //			System.out.println(uri.toString());
 //			break;
 		case MENUS_LISTALLPAGEMENUS: // listAllPageMenusFromGroup
-			System.out.println(uri.toString());
-			
-			database.getAllPagesMenus();
-			break;
+            return database.getAllPagesMenus();
 //		case RESOURCES_GET:
 //			System.out.println(uri.toString());
 //			break;
 //		case UriMatcher.NO_MATCH:
 		default:
 			System.out.println("URI IS WRONG : " + uri.toString());
-			break;
+			return null;
 		}
-		
-		
-		return null;
 	}
 	
 

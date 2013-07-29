@@ -45,12 +45,14 @@ public abstract class DALContract {
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_PAGE_ID =  "page_id";
 		public static final String COLUMN_NAME_GROUP_ID = "group_id";
-		public static final String COLUMN_NAME_ORDER = "order";
+        // This order column is badly named. ORDER is a SQL keyword, and this causes several
+        // bugs. That's why we put the name inside `s.
+		public static final String COLUMN_NAME_ORDER = "`order`";
 		
 		public static final String ID = TABLE_NAME + POINT + COLUMN_NAME_ID;
 		public static final String PAGE_ID = TABLE_NAME + POINT + COLUMN_NAME_PAGE_ID;
-		public static final String GROUP_ID = TABLE_NAME + POINT + COLUMN_NAME_GROUP_ID; 
-		public static final String ORDER = TABLE_NAME + POINT + COLUMN_NAME_ORDER;
+		public static final String GROUP_ID = TABLE_NAME + POINT + COLUMN_NAME_GROUP_ID;
+        public static final String ORDER = TABLE_NAME + POINT + COLUMN_NAME_ORDER;
 	}
 	
 	public static abstract class GroupsContract implements BaseColumns {

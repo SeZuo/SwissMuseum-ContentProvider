@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ch.sebastienzurfluh.swissmuseumguides.contentprovider"
-    android:versionCode="1"
-    android:versionName="1.0" >
+          package="ch.sebastienzurfluh.swissmuseumguides.contentprovider"
+          android:versionCode="1"
+          android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="17" />
-    
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" >
-    </uses-permission>
+            android:minSdkVersion="11"
+            android:targetSdkVersion="18" />
 
-    <permission android:name="ch.sebastienzurfluh.swissmuseumguides.permissions.READ_PERMISSION"
-                android:label="permission_read_access_label"
+    <permission android:name="ch.sebastienzurfluh.swissmuseumguides.permissions.READ_DATABASE"
+                android:label="@string/permission_read_access_label"
                 android:description="@string/permission_read_access_description"
-                android:protectionLevel="normal" />
+                android:protectionLevel="normal"
+            />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
+
+
 
     <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+            android:allowBackup="true"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" >
         <activity
-            android:name="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.MainActivity"
-            android:label="@string/app_name" >
+                android:name="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.MainActivity"
+                android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,27 +39,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.ViewDatabaseActivity"
-            android:label="@string/title_activity_view_db"
-            android:parentActivityName="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.MainActivity" >
+                android:name="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.DatabaseUpdaterActivity"
+                android:label="@string/title_activity_update_db"
+                android:noHistory="true"
+                android:parentActivityName="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.MainActivity" >
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.MainActivity" />
-        </activity>
-        <activity
-            android:name="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.DatabaseUpdaterActivity"
-            android:label="@string/title_activity_update_db"
-            android:noHistory="true"
-            android:parentActivityName="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.MainActivity" />
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="ch.sebastienzurfluh.swissmuseumguides.contentprovider.control.MainActivity" />
         </activity>
         <provider
-      		android:authorities="ch.sebastienzurfluh.swissmuseumguides.contentprovider"
-       		android:name="ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.Database"
-       		android:readPermission="ch.sebastienzurfluh.swissmuseumguides.permissions.READ_PERMISSION" >
-		</provider> 
+                android:name="ch.sebastienzurfluh.swissmuseumguides.contentprovider.model.Database"
+                android:exported="true"
+                android:authorities="ch.sebastienzurfluh.swissmuseumguides.contentprovider"
+                android:readPermission="ch.sebastienzurfluh.swissmuseumguides.permissions.READ_DATABASE"
+                />
     </application>
 
 </manifest>
