@@ -295,6 +295,10 @@ public class LocalConnector extends SQLiteOpenHelper implements IOConnector {
 
         Cursor cursor = getReadableDatabase().rawQuery(query, groupIdArgs);
 
+        // cursor has the links to the resources, but we want to include the resource in the
+        // cursor!
+
+
         if (!(cursor.moveToFirst()) || cursor.getCount() ==0){
             System.out.println("LocalConnector: CURSOR IS EMPTY!!!");
         }
@@ -311,8 +315,19 @@ public class LocalConnector extends SQLiteOpenHelper implements IOConnector {
 	
 	@Override
 	public Cursor getPage(int pageId) {
-		//TODO
-		return null;
+        String query = "SELECT "
+                + PagesContract.TABLE_NAME + ".*"
+                + "," + MenusContract.TABLE_NAME + ".* "
+                + " FROM "
+                + PagesContract.TABLE_NAME + "," + MenusContract.TABLE_NAME
+                + " WHERE "
+                + PagesContract.ID + "=?"
+                + " AND "
+                + MenusContract.ID + "=" + PagesContract.MENU_ID;
+
+
+
+        return getReadableDatabase().rawQuery(query, new String[]{String.valueOf(pageId)});
 	}
 
 

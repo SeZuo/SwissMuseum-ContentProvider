@@ -44,12 +44,15 @@ public class Database extends ContentProvider {
 	private static final int RESOURCES_GET = 3;
 	
 	private static final String AUTHORITY = "ch.sebastienzurfluh.swissmuseumguides.contentprovider";
-	private static final String CONTENT_URI_ROOT = "content://" + AUTHORITY + "/";
+	private static final String CONTENT_URI_ROOT = "content://" + AUTHORITY;
 
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-//        uriMatcher.addURI(CALContract.AUTHORITY, CONTENT_URI_ROOT + "pages/#", PAGES_GET);
+        uriMatcher.addURI(
+                AUTHORITY,
+                "pages/#",
+                PAGES_GET);
         uriMatcher.addURI(
         		AUTHORITY,
                 "menus/listAll",
@@ -73,9 +76,8 @@ public class Database extends ContentProvider {
 	
 		// here comes the functions we need.
 		switch(uriMatcher.match(uri)) {
-//		case PAGES_GET:
-//			System.out.println(uri.toString());
-//			break;
+		case PAGES_GET:
+			return database.getPage(Integer.valueOf(uri.getLastPathSegment()));
 		case MENUS_LISTALLPAGEMENUS: // listAllPageMenusFromGroup
             return database.getAllPagesMenus();
 //		case RESOURCES_GET:
