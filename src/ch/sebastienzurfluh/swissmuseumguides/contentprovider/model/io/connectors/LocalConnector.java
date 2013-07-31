@@ -330,5 +330,18 @@ public class LocalConnector extends SQLiteOpenHelper implements IOConnector {
         return getReadableDatabase().rawQuery(query, new String[]{String.valueOf(pageId)});
 	}
 
+    @Override
+    public Cursor getResource(int resourceId) {
+        String query = "SELECT "
+                + ResourcesContract.ID + " AS \"_id\", "
+                + ResourcesContract.TABLE_NAME + ".* "
+                + " FROM "
+                + ResourcesContract.TABLE_NAME
+                + " WHERE "
+                + ResourcesContract.ID + "=?";
+
+        return getReadableDatabase().rawQuery(query, new String[]{String.valueOf(resourceId)});
+    }
+
 
 }

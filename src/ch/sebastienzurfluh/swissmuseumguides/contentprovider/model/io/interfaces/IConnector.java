@@ -49,4 +49,11 @@ public interface IConnector {
 	 * @return the bare page
 	 */
 	Cursor getPage(int pageId);
+
+
+    /**
+     * @param resourceId
+     * @return the resource url and legend
+     */
+    Cursor getResource(int resourceId);
 }

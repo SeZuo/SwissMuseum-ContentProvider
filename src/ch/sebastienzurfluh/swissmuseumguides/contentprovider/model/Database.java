@@ -55,9 +55,12 @@ public class Database extends ContentProvider {
                 PAGES_GET);
         uriMatcher.addURI(
         		AUTHORITY,
-                "menus/listAll",
+                "menus",
         		MENUS_LISTALLPAGEMENUS);
-//        uriMatcher.addURI(CALContract.AUTHORITY, CONTENT_URI_ROOT + "resources/#", RESOURCES_GET);
+        uriMatcher.addURI(
+                AUTHORITY,
+                "resources/#",
+                RESOURCES_GET);
     }
 
 	private IConnector database;
@@ -80,10 +83,8 @@ public class Database extends ContentProvider {
 			return database.getPage(Integer.valueOf(uri.getLastPathSegment()));
 		case MENUS_LISTALLPAGEMENUS: // listAllPageMenusFromGroup
             return database.getAllPagesMenus();
-//		case RESOURCES_GET:
-//			System.out.println(uri.toString());
-//			break;
-//		case UriMatcher.NO_MATCH:
+		case RESOURCES_GET:
+			return database.getResource(Integer.valueOf(uri.getLastPathSegment()));
 		default:
 			System.out.println("URI IS WRONG : " + uri.toString());
 			return null;
