@@ -343,5 +343,28 @@ public class LocalConnector extends SQLiteOpenHelper implements IOConnector {
         return getReadableDatabase().rawQuery(query, new String[]{String.valueOf(resourceId)});
     }
 
+    @Override
+    public Cursor getAllGroupMenus() {
+        String query = "SELECT "
+                // group_id does not give order, this is done by the menu's id
+                + MenusContract.ID + " AS \"_id\", " // Cursor needs _id
+                + MenusContract.TITLE + ", "
+                + MenusContract.DESCRIPTION + ", "
+                + MenusContract.THUMB_IMG_URL + ", "
+                + MenusContract.IMG_URL + ", "
+                // we want to differentiate group_id from _id
+                + GroupsContract.ID + " AS " + AffiliationsContract.COLUMN_NAME_GROUP_ID
+                + " FROM "
+                + GroupsContract.TABLE_NAME + ", "
+                + MenusContract.TABLE_NAME
+                + " WHERE "
+                + MenusContract.ID + "=" + GroupsContract.MENU_ID
+                + " ORDER BY "
+                + MenusContract.ID
+                + ";";
+
+        return getReadableDatabase().rawQuery(query, new String[]{});
+    }
+
 
 }

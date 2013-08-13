@@ -42,6 +42,7 @@ public class Database extends ContentProvider {
 	private static final int PAGES_GET = 1;
 	private static final int MENUS_LISTALLPAGEMENUS = 2;
 	private static final int RESOURCES_GET = 3;
+    private static final int MENUS_LISTALLGROUPS = 4;
 	
 	private static final String AUTHORITY = "ch.sebastienzurfluh.swissmuseumguides.contentprovider";
 	private static final String CONTENT_URI_ROOT = "content://" + AUTHORITY;
@@ -53,6 +54,10 @@ public class Database extends ContentProvider {
                 AUTHORITY,
                 "pages/#",
                 PAGES_GET);
+        uriMatcher.addURI(
+                AUTHORITY,
+                "menus/groups",
+                MENUS_LISTALLGROUPS);
         uriMatcher.addURI(
         		AUTHORITY,
                 "menus",
@@ -85,6 +90,8 @@ public class Database extends ContentProvider {
             return database.getAllPagesMenus();
 		case RESOURCES_GET:
 			return database.getResource(Integer.valueOf(uri.getLastPathSegment()));
+        case MENUS_LISTALLGROUPS:
+            return database.getAllGroupMenus();
 		default:
 			System.out.println("URI IS WRONG : " + uri.toString());
 			return null;

@@ -56,4 +56,9 @@ public interface IConnector {
      * @return the resource url and legend
      */
     Cursor getResource(int resourceId);
+
+    /**
+     * @return the list of all the groups' menus
+     */
+    Cursor getAllGroupMenus();
 }
